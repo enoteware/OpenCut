@@ -2,12 +2,62 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─────────────────────────────────────────────────────────────────────
+ * noteware.dev design system — token layer
+ * Ported from the noteware.dev Design System (tokens/*.css).
+ * Never hand-pick a value outside these tokens; add a role here instead.
+ * ───────────────────────────────────────────────────────────────────── */
+
 @theme inline {
-    --font-heading: 'Playfair Display', serif;
-    --font-sans: 'Inter Variable', sans-serif;
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* Type scale — 8px-anchored, matches noteware tokens/typography.css */
+    --text-micro: 0.5rem;
+    --text-micro--line-height: 0.75rem;
+    --text-caption: 0.625rem;
+    --text-caption--line-height: 0.875rem;
+    --text-label: 0.6875rem;
+    --text-label--line-height: 1rem;
+    --text-body: 0.875rem;
+    --text-body--line-height: 1.375rem;
+    --text-h3: 1.125rem;
+    --text-h3--line-height: 1.625rem;
+    --text-h2: 1.5rem;
+    --text-h2--line-height: 2rem;
+    --text-h1: 2rem;
+    --text-h1--line-height: 2.5rem;
+
+    --tracking-label: 0.12em;
+    --tracking-eyebrow: 0.14em;
+
+    /* Radius — 8px is the canonical corner */
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --radius-2xl: 14px;
+    --radius-3xl: 20px;
+    --radius-pill: 999px;
+
+    /* Shadows — soft, neutral, never colored. Dark mode deepens each tier. */
+    --shadow-2xs: var(--ds-shadow-2xs);
+    --shadow-xs: var(--ds-shadow-xs);
+    --shadow-sm: var(--ds-shadow-sm);
+    --shadow-md: var(--ds-shadow-md);
+    --shadow-lg: var(--ds-shadow-lg);
+    --shadow-xl: var(--ds-shadow-xl);
+    --shadow-2xl: var(--ds-shadow-2xl);
+
+    /* Motion — no overshoot / back / elastic / spring curves, ever. */
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -25,6 +75,13 @@
     --color-input: var(--input);
     --color-border: var(--border);
     --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
     --color-accent-foreground: var(--accent-foreground);
     --color-accent: var(--accent);
     --color-muted-foreground: var(--muted-foreground);
@@ -39,82 +96,141 @@
     --color-card: var(--card);
     --color-foreground: var(--foreground);
     --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
+    --radius: 0.5rem;
+
+    /* Base */
     --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
+    --foreground: oklch(0.2178 0 0);
+
+    /* Surfaces */
+    --card: oklch(0.99 0.0005 0);
+    --card-foreground: oklch(0.2178 0 0);
     --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --popover-foreground: oklch(0.2178 0 0);
+
+    /* Primary — the only chromatic action color (theme blue) */
+    --primary: oklch(0.5578 0.1423 245.64);
+    --primary-foreground: oklch(0.99 0 0);
+
+    /* Secondary / muted / accent — identical surfaces, pick by role */
+    --secondary: oklch(0.95 0.01 245.64);
+    --secondary-foreground: oklch(0.2178 0 0);
+    --muted: oklch(0.95 0.01 245.64);
+    --muted-foreground: oklch(0.45 0.005 245.64);
+    --accent: oklch(0.95 0.01 245.64);
+    --accent-foreground: oklch(0.2178 0 0);
+
+    /* Status — reserved for status, never decoration.
+     * Deviation from upstream noteware tokens: the published fills carry a
+     * white label at only 2.4–3.7:1. Lightness is pulled down just far enough
+     * for the label to clear WCAG AA 4.5:1; hue and chroma are untouched. */
+    --destructive: oklch(0.586 0.2078 25.3313);
+    --destructive-foreground: oklch(0.99 0 0);
+    --success: oklch(0.546 0.14 145);
+    --success-foreground: oklch(0.99 0 0);
+    --warning: oklch(0.75 0.15 65);
+    --warning-foreground: oklch(0.25 0.05 15);
+    --info: oklch(0.56 0.13 250);
+    --info-foreground: oklch(0.99 0 0);
+
+    /* Lines & focus */
+    --border: oklch(0.9288 0.0126 255.51);
+    --input: oklch(0.9288 0.0126 255.51);
+    --ring: oklch(0.5578 0.1423 245.64);
+
+    /* Sidebar / band surfaces — half a step off background */
+    --sidebar: oklch(0.97 0.003 245.64);
+    --sidebar-foreground: oklch(0.2178 0 0);
+    --sidebar-primary: oklch(0.5578 0.1423 245.64);
+    --sidebar-primary-foreground: oklch(0.99 0 0);
+    --sidebar-accent: oklch(0.95 0.01 245.64);
+    --sidebar-accent-foreground: oklch(0.2178 0 0);
+    --sidebar-border: oklch(0.9288 0.0126 255.51);
+    --sidebar-ring: oklch(0.5578 0.1423 245.64);
+
+    /* Data viz — theme spectrum */
+    --chart-1: oklch(0.5578 0.1423 245.64);
+    --chart-2: oklch(0.65 0.13 220);
+    --chart-3: oklch(0.7 0.12 195);
+    --chart-4: oklch(0.6 0.15 270);
+    --chart-5: oklch(0.5 0.16 300);
+
+    --ds-shadow-2xs: 0px 1px 2px 0px oklch(0.2178 0 0 / 0.05);
+    --ds-shadow-xs: 0px 1px 3px 0px oklch(0.2178 0 0 / 0.1), 0px 1px 2px -1px oklch(0.2178 0 0 / 0.1);
+    --ds-shadow-sm: 0px 2px 4px -1px oklch(0.2178 0 0 / 0.06), 0px 4px 6px -1px oklch(0.2178 0 0 / 0.1);
+    --ds-shadow-md: 0px 4px 6px -2px oklch(0.2178 0 0 / 0.05), 0px 10px 15px -3px oklch(0.2178 0 0 / 0.1);
+    --ds-shadow-lg: 0px 10px 10px -5px oklch(0.2178 0 0 / 0.04), 0px 20px 25px -5px oklch(0.2178 0 0 / 0.1);
+    --ds-shadow-xl: 0px 20px 25px -5px oklch(0.2178 0 0 / 0.1), 0px 8px 10px -6px oklch(0.2178 0 0 / 0.1);
+    --ds-shadow-2xl: 0px 25px 50px -12px oklch(0.2178 0 0 / 0.25);
+
+    /* Motion durations */
+    --motion-instant: 100ms;
+    --motion-fast: 150ms;
+    --motion-base: 200ms;
+    --motion-slow: 300ms;
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --background: oklch(0.1714 0.0304 268.19);
+    --foreground: oklch(0.95 0.002 240);
+
+    --card: oklch(0.16 0.02 240);
+    --card-foreground: oklch(0.95 0.002 240);
+    --popover: oklch(0.2101 0.0318 264.66);
+    --popover-foreground: oklch(0.95 0.002 240);
+
+    --primary: oklch(0.7535 0.139 232.66);
+    --primary-foreground: oklch(0.1714 0.0304 268.19);
+
+    --secondary: oklch(0.25 0.035 268.19);
+    --secondary-foreground: oklch(0.95 0.002 240);
+    --muted: oklch(0.25 0.035 268.19);
+    --muted-foreground: oklch(0.65 0.01 240);
+    --accent: oklch(0.25 0.035 268.19);
+    --accent-foreground: oklch(0.95 0.002 240);
+
+    /* Status — bright fill, dark label, exactly how --primary behaves in dark.
+     * Deviation from upstream: the published *-foreground values are white,
+     * which lands at 2.7–2.8:1 on these fills. Flipping the label dark keeps
+     * the brand fills untouched and yields 6.6–7.8:1. */
+    --destructive: oklch(0.7 0.18 25.3313);
+    --destructive-foreground: oklch(0.1714 0.0304 268.19);
+    --success: oklch(0.68 0.13 145);
+    --success-foreground: oklch(0.1714 0.0304 268.19);
+    --warning: oklch(0.73 0.14 75);
+    --warning-foreground: oklch(0.1714 0.0304 268.19);
+    --info: oklch(0.68 0.12 250);
+    --info-foreground: oklch(0.1714 0.0304 268.19);
+
+    --border: oklch(0.2795 0.0368 260.03);
+    --input: oklch(0.2795 0.0368 260.03);
+    --ring: oklch(0.7535 0.139 232.66);
+
+    --sidebar: oklch(0.1714 0.0304 268.19);
+    --sidebar-foreground: oklch(0.95 0.002 240);
+    --sidebar-primary: oklch(0.7535 0.139 232.66);
+    --sidebar-primary-foreground: oklch(0.1714 0.0304 268.19);
+    --sidebar-accent: oklch(0.25 0.035 268.19);
+    --sidebar-accent-foreground: oklch(0.95 0.002 240);
+    --sidebar-border: oklch(0.2795 0.0368 260.03);
+    --sidebar-ring: oklch(0.7535 0.139 232.66);
+
+    --chart-1: oklch(0.7535 0.139 232.66);
+    --chart-2: oklch(0.7 0.12 210);
+    --chart-3: oklch(0.65 0.11 185);
+    --chart-4: oklch(0.68 0.14 260);
+    --chart-5: oklch(0.6 0.15 290);
+
+    --ds-shadow-2xs: 0px 1px 2px 0px oklch(0 0 0 / 0.1);
+    --ds-shadow-xs: 0px 1px 3px 0px oklch(0 0 0 / 0.15), 0px 1px 2px -1px oklch(0 0 0 / 0.15);
+    --ds-shadow-sm: 0px 2px 4px -1px oklch(0 0 0 / 0.12), 0px 4px 6px -1px oklch(0 0 0 / 0.15);
+    --ds-shadow-md: 0px 4px 6px -2px oklch(0 0 0 / 0.1), 0px 10px 15px -3px oklch(0 0 0 / 0.15);
+    --ds-shadow-lg: 0px 10px 10px -5px oklch(0 0 0 / 0.08), 0px 20px 25px -5px oklch(0 0 0 / 0.15);
+    --ds-shadow-xl: 0px 20px 25px -5px oklch(0 0 0 / 0.15), 0px 8px 10px -6px oklch(0 0 0 / 0.15);
+    --ds-shadow-2xl: 0px 25px 50px -12px oklch(0 0 0 / 0.35);
 }
 
 @layer base {
@@ -122,15 +238,38 @@
     @apply border-border outline-ring/50;
     }
   body {
-    @apply bg-background text-foreground;
-    }
-  html {
-    @apply font-sans;
+    @apply bg-background text-foreground font-sans text-body antialiased;
     }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+    @apply font-sans font-semibold tracking-tight text-balance;
     }
+  h1 { @apply text-h1; }
+  h2 { @apply text-h2; }
+  h3 { @apply text-h3; }
   p {
-    @apply text-foreground
+    @apply text-foreground;
+    }
+  ::selection {
+    background: oklch(from var(--primary) l c h / 0.25);
+    }
+}
+
+/* Required reduced-motion baseline (noteware design.md §6.6) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* Mono uppercase label — the noteware eyebrow / section-label treatment. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--color-muted-foreground);
 }
