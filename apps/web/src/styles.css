@@ -15,6 +15,10 @@
 @theme inline {
     --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
     --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+    /* Noteware specifies two families and no display serif, so headings ride the
+     * sans stack. Kept as its own slot: the components already say font-heading,
+     * and if a display face is ever sanctioned only this line changes. */
+    --font-heading: var(--font-sans);
 
     /* Type scale — 8px-anchored, matches noteware tokens/typography.css */
     --text-micro: 0.5rem;
