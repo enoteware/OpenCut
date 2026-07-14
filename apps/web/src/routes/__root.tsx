@@ -1,6 +1,7 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { ThemeProvider } from 'next-themes'
 import { TooltipProvider } from '../components/ui/tooltip'
 
 import appCss from '../styles.css?url'
@@ -26,19 +27,6 @@ export const Route = createRootRoute({
         type: 'image/x-icon',
       },
       {
-        rel: 'preconnect',
-        href: 'https://fonts.googleapis.com',
-      },
-      {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com',
-        crossOrigin: 'anonymous',
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400..900&display=swap',
-      },
-      {
         rel: 'stylesheet',
         href: appCss,
       },
@@ -49,14 +37,16 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
-        <TooltipProvider>
-          {children}
-        </TooltipProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
+        </ThemeProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',
