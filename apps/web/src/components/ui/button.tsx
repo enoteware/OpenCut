@@ -5,7 +5,7 @@ import { cn } from "#/lib/utils.ts"
 
 // Noteware: hover lifts and brightens, never scales down. Focus ring is always --ring.
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding font-medium whitespace-nowrap outline-hidden select-none transition-[transform,box-shadow,background-color,filter,border-color] duration-200 ease-standard focus-visible:ring-[3px] focus-visible:ring-ring/30 focus-visible:border-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/20 motion-safe:hover:not-disabled:-translate-y-px [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-(--control-radius) border border-transparent bg-clip-padding font-medium whitespace-nowrap outline-hidden select-none transition-[transform,box-shadow,background-color,filter,border-color] duration-200 ease-standard focus-visible:ring-[3px] focus-visible:ring-ring/30 focus-visible:border-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/20 motion-safe:hover:not-disabled:-translate-y-px [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-(--control-icon)",
   {
     variants: {
       variant: {
@@ -21,15 +21,20 @@ const buttonVariants = cva(
           "text-foreground hover:bg-secondary aria-expanded:bg-secondary motion-safe:hover:translate-y-0",
         link: "text-primary underline-offset-4 hover:underline motion-safe:hover:translate-y-0",
       },
+      // Sizes read the control-geometry tokens, so wrapping a subtree in
+      // data-density="compact" retunes every button inside it. Only `lg` is
+      // fixed: it is the marketing CTA size and never appears in editor chrome.
       size: {
         default:
-          "h-9 gap-2 px-3.5 text-body has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5",
-        xs: "h-7 gap-1 rounded-sm px-2 text-caption [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-8 gap-1.5 px-2.5 text-caption has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-3.5",
+          "h-(--control-h) gap-(--control-gap) px-(--control-px) text-[length:var(--control-text)]",
+        xs: "h-(--control-h-xs) gap-(--control-gap) px-(--control-px-xs) text-[length:var(--control-text-sm)] [&_svg:not([class*='size-'])]:size-(--control-icon-xs)",
+        sm: "h-(--control-h-sm) gap-(--control-gap) px-(--control-px-sm) text-[length:var(--control-text-sm)] [&_svg:not([class*='size-'])]:size-(--control-icon-sm)",
         lg: "h-11 gap-2 rounded-lg px-8 text-base",
-        icon: "size-9",
-        "icon-xs": "size-7 rounded-sm [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-8 [&_svg:not([class*='size-'])]:size-3.5",
+        icon: "size-(--control-h)",
+        "icon-xs":
+          "size-(--control-h-xs) [&_svg:not([class*='size-'])]:size-(--control-icon-xs)",
+        "icon-sm":
+          "size-(--control-h-sm) [&_svg:not([class*='size-'])]:size-(--control-icon-sm)",
         "icon-lg": "size-11 rounded-lg",
       },
     },

@@ -27,6 +27,11 @@
     --text-caption--line-height: 0.875rem;
     --text-label: 0.6875rem;
     --text-label--line-height: 1rem;
+    /* Added role (not in upstream noteware, whose scale jumps 11px -> 14px).
+     * 12px is the editor chrome's working size; a dense timeline cannot carry
+     * 14px labels. Documented here per the system's "add a token" rule. */
+    --text-ui: 0.75rem;
+    --text-ui--line-height: 1.125rem;
     --text-body: 0.875rem;
     --text-body--line-height: 1.375rem;
     --text-h3: 1.125rem;
@@ -175,6 +180,68 @@
     --motion-fast: 150ms;
     --motion-base: 200ms;
     --motion-slow: 300ms;
+
+    /* ── Control geometry ───────────────────────────────────────────────
+     * The one knob that separates comfortable from compact. Controls read
+     * these rather than hard-coding heights, so density cascades from a
+     * single ancestor instead of being threaded through props.
+     * Default = the Noteware comfortable scale (marketing, client-facing).
+     */
+    --control-h: 2.25rem;        /* 36px */
+    --control-h-sm: 2rem;        /* 32px */
+    --control-h-xs: 1.75rem;     /* 28px */
+    --control-px: 0.875rem;      /* 14px */
+    --control-px-sm: 0.625rem;   /* 10px */
+    --control-px-xs: 0.5rem;     /* 8px  */
+    --control-gap: 0.5rem;       /* 8px  */
+    --control-text: var(--text-body);   /* 14px */
+    --control-text-sm: var(--text-ui);  /* 12px */
+    --control-icon: 1rem;        /* 16px */
+    --control-icon-sm: 0.875rem; /* 14px */
+    --control-icon-xs: 0.75rem;  /* 12px */
+    --control-radius: var(--radius-md);
+}
+
+/* ── Compact density — editor chrome only ─────────────────────────────
+ * Scope with data-density="compact" on the editor shell (timeline, tool
+ * panels, inspector). Everything inside inherits compact geometry; nothing
+ * outside is affected, so marketing and client-facing surfaces keep the
+ * comfortable Noteware scale.
+ *
+ * Values reproduce the original shadcn density OpenCut shipped (28px
+ * controls, 12px labels), with one deliberate exception: the smallest
+ * interactive target is floored at 24px. The stock scale went to 20px,
+ * which fails WCAG 2.2 SC 2.5.8 (Target Size Minimum, 24x24). Colors,
+ * shadows, motion and type family are untouched — only geometry changes.
+ */
+[data-density='compact'] {
+    --control-h: 1.75rem;        /* 28px */
+    --control-h-sm: 1.5rem;      /* 24px */
+    --control-h-xs: 1.5rem;      /* 24px — WCAG 2.2 floor, not 20px */
+    --control-px: 0.5rem;        /* 8px  */
+    --control-px-sm: 0.5rem;     /* 8px  */
+    --control-px-xs: 0.375rem;   /* 6px  */
+    --control-gap: 0.25rem;      /* 4px  */
+    --control-text: var(--text-ui);      /* 12px */
+    --control-text-sm: var(--text-ui);   /* 12px */
+    --control-icon: 0.875rem;    /* 14px */
+    --control-icon-sm: 0.75rem;  /* 12px */
+    --control-icon-xs: 0.75rem;  /* 12px */
+    --control-radius: var(--radius-sm);
+}
+
+/* Touch input needs room regardless of how dense the chrome looks on a
+ * mouse-driven desktop. On coarse pointers, compact relaxes back toward the
+ * comfortable targets rather than shipping 24px hit areas to a finger. */
+@media (pointer: coarse) {
+    [data-density='compact'] {
+        --control-h: 2.25rem;
+        --control-h-sm: 2rem;
+        --control-h-xs: 2rem;
+        --control-px: 0.75rem;
+        --control-px-sm: 0.625rem;
+        --control-px-xs: 0.5rem;
+    }
 }
 
 .dark {
